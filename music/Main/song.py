@@ -20,12 +20,17 @@ logging.getLogger().setLevel(logging.CRITICAL)
 # ==========================================
 # ANSI COLOR TERMINAL CODES
 # ==========================================
+# Bro it took me 20 mins to find the right color codes for this, I swear
+# Who made this bro is he okay? Why is it so complicated to just print colored text in the terminal? 
+
+# These codes are used to add color and formatting to terminal output for better user experience.
 CLR_TITLE  = "\033[95m\033[1m"
 CLR_MENU   = "\033[96m"
 CLR_ADD    = "\033[92m"
 CLR_REM    = "\033[91m"
 CLR_TEXT   = "\033[97m"
 CLR_RESET  = "\033[0m"
+
 
 class Song:
     """Represents an individual musical track."""
@@ -35,6 +40,7 @@ class Song:
         self.name = name
         self.artist = artist
         self.genre = genre
+
 
     def to_dict(self):
         """Converts the object to a dictionary for JSON serialization."""
@@ -56,6 +62,7 @@ class User:
         self.username = username
         self.playlist = []
 
+# Add song code here
     def add_song_to_playlist(self, song: Song):
         for track in self.playlist:
             if track.name.lower() == song.name.lower() and track.artist.lower() == song.artist.lower():
@@ -65,6 +72,7 @@ class User:
         print(f"\n{CLR_ADD}[+] '{song.name}' successfully added to your tracks!{CLR_RESET}")
         return True
 
+# Remove song code here
     def remove_song_from_playlist(self, song: Song):
         if song in self.playlist:
             self.playlist.remove(song)
@@ -73,6 +81,7 @@ class User:
         print(f"\n{CLR_REM}[!] Track was not found.{CLR_RESET}")
         return False
 
+# View playlist code here
     def view_playlist(self):
         print(f"\n{CLR_TITLE}╔════════════════════════════════════════════╗")
         print(f"║          {self.username.upper()}'S PLAYLIST             ║")
@@ -96,6 +105,7 @@ class UserManager:
         self.users = {}
         self.load_data()
 
+# Create user code here
     def create_user(self, username: str) -> User:
         username = username.strip()
         if username in self.users:
@@ -105,6 +115,7 @@ class UserManager:
         self.save_data()
         return new_user
 
+# Save data code here
     def save_data(self):
         """Saves all users into a clean db.json file in the root workspace."""
         try:
@@ -118,6 +129,7 @@ class UserManager:
         except Exception as e:
             logger.error(f"Failed to save data: {e}")
 
+# Load data code here
     def load_data(self):
         """Loads user data back into the app on startup."""
         if not os.path.exists(self.filepath):
@@ -154,6 +166,7 @@ if __name__ == "__main__":
     current_user = manager.create_user(username_input)
     print(f"{CLR_ADD}👋 Welcome back, {current_user.username}!{CLR_RESET}")
 
+# Main dashboard loop
     while True:
         print(f"\n{CLR_TITLE}⚡ MAIN DASHBOARD ⚡{CLR_RESET}")
         print(f"{CLR_MENU}1. 🎧 View My Playlist")
@@ -163,9 +176,18 @@ if __name__ == "__main__":
         
         choice = input(f"\n{CLR_TEXT}👉 Select an option (1-4): {CLR_RESET}").strip()
 
+
+#=====================================
+# Handle user choices
+#=====================================
+
+
+
+# View playlist 
         if choice == "1":
             current_user.view_playlist()
 
+# Add song 
         elif choice == "2":
             print(f"\n{CLR_ADD}╔⚡ NEW TRACK SETUP ─────────────────────────╗{CLR_RESET}")
             title = input(f"  {CLR_MENU}🎵 Song Title:  {CLR_RESET}").strip()
@@ -180,6 +202,7 @@ if __name__ == "__main__":
             else:
                 print(f"\n{CLR_REM}[!] Failed: All fields are required to build a track.{CLR_RESET}")
 
+# Remove song
         elif choice == "3":
             has_songs = current_user.view_playlist()
             
@@ -195,7 +218,7 @@ if __name__ == "__main__":
                         print(f"\n{CLR_REM}[!] Invalid track number index.{CLR_RESET}")
                 except ValueError:
                     print(f"\n{CLR_REM}[!] Input entry must be a valid number digits.{CLR_RESET}")
-
+# Exit app
         elif choice == "4":
             print(f"\n{CLR_TITLE}👋 Session closed. Keep rocking, {current_user.username}!{CLR_RESET}\n")
             break
