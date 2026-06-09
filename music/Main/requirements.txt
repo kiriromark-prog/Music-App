@@ -1,0 +1,14 @@
+I made this project to learn python concepts and to have fun. 
+
+To run this project on your local machine, You need these:
+
+1.Python: Python version 3.10 or higher must be installed on the machine. You can download it from the official Python website: https://www.python.org/downloads/
+
+2.Dependencies :
+To install dependencies run this command on your terminal:
+        pip install pytest
+
+
+For testing only:
+        type this command on your terminal: PYTHONPATH=. pytest test_song.py -v
+    
